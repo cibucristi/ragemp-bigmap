@@ -7,26 +7,45 @@
     <title>Document</title>
 </head>
 <body style="background-color: transparent;">
-    <div id="first-element" style="width: 100px; height: 100px; background-color: #000000; position: relative; top: 750px;"></div>
-    <div id="second-element" style="width: 100px; height: 100px; background-color: #000000; position: relative; left:300px; top: 800px;"></div>
+    <div class="app">
+        <div id="first-element" style="width: 100px; height: 100px; background-color: #000000; position: absolute; bottom: 14rem"></div>
+        <div id="second-element" style="width: 100px; height: 100px; background-color: #AB0000; position: relative; left:300px; top: 800px;"></div>
+        <!--<div id="second-element" style="width: 100px; height: 100px; background-color: #000000; position: relative; left:300px; top: 800px;"></div>-->
+    </div>
 
     <script>
+
+        window.addEventListener("resize", () => {
+            const Width = document.body.clientWidth / 1920;
+            const Height = document.body.clientHeight / 1920;
+            const element = document.getElementById("app");
+
+            if (!element) return console.log("Failed to resize UI, no app element found.");
+            if (Width < Height) {
+                element.style.zoom = Width;
+            } else {
+                element.style.zoom = Height;
+            }
+        })
+
         const oneElem = document.getElementById("first-element");
         const twoElem = document.getElementById("second-element");
 
+        mp.events.add("SET_MINIMAP_LEFT", (left) => {
+            oneElem.style.left = `calc(${left * 11}%)`
+            twoElem.style.left = `calc(${left * 100}% + 20px)`
+        })
+
+        mp.events.add("SET_MINIMAP_WIDTH", (width) => {
+            oneElem.style.width = `calc(${width * 100}%)`
+        })
+
+        mp.events.add("SET_MINIMAP_BOTTOM", (bottom) => {
+            oneElem.style.bottom = `calc(${bottom * 21}%)`
+        })
+
         function minimapZoom(zoom) {
-            switch(zoom) {
-                case 0: {
-                    oneElem.style = "width: 100px; height: 100px; background-color: #000000; position: relative; top: 750px;"
-                    twoElem.style = "width: 100px; height: 100px; background-color: #000000; position: relative; left:300px; top: 800px;"
-                    break;
-                }
-                case 1: {
-                    oneElem.style = "width: 100px; height: 100px; background-color: #000000; position: relative; top: 500px;"
-                    twoElem.style = "width: 100px; height: 100px; background-color: #000000; position: relative; left:500px; top: 800px;"
-                    break;
-                }
-            }
+            
         }
     </script>
 </body>
