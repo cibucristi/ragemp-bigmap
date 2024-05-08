@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ragemp-bigmap</title>
+</head>
+<body style="background-color: transparent;">
+    <div id="first-element" style="background-color: #000000;position: absolute; height: 50px; bottom: 22.5vh;"></div>
+
+    <script>
+        const oneElem = document.getElementById("first-element");
+        let minimap = {
+            width: 0,
+            left: 0,
+        }
+
+        mp.events.add("SET_MINIMAP_WIDTH_AND_LEFT", (width, left) => {
+            minimap = {
+                width: width,
+                left: left
+            }
+            console.log(minimap);
+            setContainerPosition();
+        });
+
+        function setContainerPosition() {
+            oneElem.style.width = minimap.width + "px";
+            oneElem.style.left = minimap.left + "px";
+        }
+
+        function browserReady() {
+            mp.trigger("BROWSER_READY");
+        }
+
+        browserReady();
+    </script>
+</body>
+</html>
